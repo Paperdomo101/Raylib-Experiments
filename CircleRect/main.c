@@ -191,7 +191,6 @@ void UpdateGame(void)
     totalTime += deltaTime;
 
     if (followObject) {
-        // camera.target = Vector2Lerp(camera.target, Vector2Subtract(object.pos, Vector2Scale(Vector2One(), 15.5)), deltaTime * 4.0f);
         camera.target.x = Lerp(camera.target.x, object.pos.x - 15.5, deltaTime * 4.0f);
         camera.target.y = Lerp(camera.target.y, object.pos.y - 12, deltaTime * 4.0f);
     } else {
@@ -275,60 +274,59 @@ void DrawGame(void)
         BeginMode2D(camera);
 
         ClearBackground(DARKBLUE);
-        
 
-
-		if (IsMouseButtonDown(MOUSE_BUTTON_MIDDLE)) camera.offset = Vector2Add(camera.offset, GetMouseDelta());
-		if (GetMouseWheelMove() > 0) camera.zoom += 1 * camera.zoom * 0.2;
-		if (GetMouseWheelMove() < 0) camera.zoom -= 1 * camera.zoom * 0.2;
+	if (IsMouseButtonDown(MOUSE_BUTTON_MIDDLE)) camera.offset = Vector2Add(camera.offset, GetMouseDelta());
+	if (GetMouseWheelMove() > 0) camera.zoom += 1 * camera.zoom * 0.2;
+	if (GetMouseWheelMove() < 0) camera.zoom -= 1 * camera.zoom * 0.2;
+	
         camera.zoom = Clamp(camera.zoom, 1, 100);
 
         Vector2 topLeft = Vector2Int(Vector2Zero());
-		Vector2 bottomRight = Vector2Int((Vector2){worldSize.x, worldSize.y});
-		Vector2 tile;
-		for (tile.y = topLeft.y; tile.y < bottomRight.y; tile.y++)
-			for (tile.x = topLeft.x; tile.x < bottomRight.x; tile.x++)
+	Vector2 bottomRight = Vector2Int((Vector2){worldSize.x, worldSize.y});
+	Vector2 tile;
+	for (tile.y = topLeft.y; tile.y < bottomRight.y; tile.y++)
+		for (tile.x = topLeft.x; tile.x < bottomRight.x; tile.x++)
+		{
+			if (worldMap[(int)(tile.y * worldSize.x + tile.x)] == '#')
 			{
-				if (worldMap[(int)(tile.y * worldSize.x + tile.x)] == '#')
-				{
-                    DrawLineV(tile, Vector2Add(tile, (Vector2){1.0f, 0.0f}), WHITE);
-                    DrawLineV(tile, Vector2Add(tile, (Vector2){0.0f, 1.0f}), WHITE);
-                    DrawLineV(Vector2Add(tile, (Vector2) {0.0f, 1.0f}), Vector2Add(tile, Vector2One()), WHITE);
-                    DrawLineV(Vector2Add(tile, (Vector2) {1.0f, 0.0f}), Vector2Add(tile, Vector2One()), WHITE);
+				DrawLineV(tile, Vector2Add(tile, (Vector2){1.0f, 0.0f}), WHITE);
+				DrawLineV(tile, Vector2Add(tile, (Vector2){0.0f, 1.0f}), WHITE);
+				DrawLineV(Vector2Add(tile, (Vector2) {0.0f, 1.0f}), Vector2Add(tile, Vector2One()), WHITE);
+				DrawLineV(Vector2Add(tile, (Vector2) {1.0f, 0.0f}), Vector2Add(tile, Vector2One()), WHITE);
 
-					DrawLineV(tile, Vector2Add(tile, Vector2One()), WHITE);
-					DrawLineV(Vector2Add(tile, (Vector2) {0.0f, 1.0f}), Vector2Add(tile, (Vector2){1.0f, 0.0f}), WHITE);
-				}
+				DrawLineV(tile, Vector2Add(tile, Vector2One()), WHITE);
+				DrawLineV(Vector2Add(tile, (Vector2) {0.0f, 1.0f}), Vector2Add(tile, (Vector2){1.0f, 0.0f}), WHITE);
 			}
+		}
 
-		DrawRectangle(areaTopLeft.x, areaTopLeft.y, areaBottomRight.x - areaTopLeft.x + 1, areaBottomRight.y - areaTopLeft.y + 1, GetColor(0x00FFFF32));
+	DrawRectangle(areaTopLeft.x, areaTopLeft.y, areaBottomRight.x - areaTopLeft.x + 1, areaBottomRight.y - areaTopLeft.y + 1, GetColor(0x00FFFF32));
 
 
         // Draw Boundary
         DrawCircleV(object.pos, object.radius, WHITE);
 
-		// Draw Velocity
-		if (Vector2LengthSqr(object.vel) > 0)
-		{
-			DrawLineV(object.pos, Vector2Add(object.pos, Vector2Scale(Vector2Normalize(object.vel), object.radius)), MAGENTA);
-		}
+	// Draw Velocity
+	if (Vector2LengthSqr(object.vel) > 0)
+	{
+		DrawLineV(object.pos, Vector2Add(object.pos, Vector2Scale(Vector2Normalize(object.vel), object.radius)), MAGENTA);
+	}
 
        
-
         EndTextureMode();
 
         RenderApplicationSurface();
 
         if (followObject)
-		{
-			// camera.target = object.pos;
-			DrawText("Following Object", 10, 10, 10, WHITE);
+	{
+		DrawText("Following Object", 10, 10, 10, WHITE);
 
-			DrawText(TextFormat("position:%2.2f", object.pos), 10, 20, 10, BLACK);
-			DrawText(TextFormat("potentialPosition:%2.2f", potentialPosition), 10, 30, 10, BLACK);
-			DrawText(TextFormat("velocity:%2.2f", object.vel), 10, 40, 10, BLACK);
-		} 
+		DrawText(TextFormat("position:%2.2f", object.pos), 10, 20, 10, BLACK);
+		DrawText(TextFormat("potentialPosition:%2.2f", potentialPosition), 10, 30, 10, BLACK);
+		DrawText(TextFormat("velocity:%2.2f", object.vel), 10, 40, 10, BLACK);
+	} 
+	
         EndMode2D();
+	
     EndDrawing();
 }
 
