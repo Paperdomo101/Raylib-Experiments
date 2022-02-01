@@ -88,40 +88,40 @@ typedef struct WorldObject {
 
 WorldObject object;
 
- char worldMap[1026] = {
-		"################################"
-		"#..............................#"
-		"#.......#####.#.....#####......#"
-		"#.......#...#.#.....#..........#"
-		"#.......#...#.#.....#..........#"
-		"#.......#####.#####.#####......#"
-		"#..............................#"
-		"#....#####.#####.#####.#####...#"
-		"#........#.#...#.....#.....#...#"
-		"#....#####.#...#.#####.#####...#"
-		"#....#.....#...#.#.....#.......#"
-		"#....#####.#####.#####.#####...#"
-		"#..............................#"
-		"#..............................#"
-		"#..#.#..........#....#.........#"
-		"#..#.#..........#....#.........#"
-		"#..#.#.......#####.#######.....#"
-		"#..#.#..........#....#.........#"
-		"#..#.#.............###.#.#.....#"
-		"#..#.##########................#"
-		"#..#..........#....#.#.#.#.....#"
-		"#..#.####.###.#................#"
-		"#..#.#......#.#................#"
-		"#..#.#.####.#.#....###..###....#"
-		"#..#.#......#.#....#......#....#"
-		"#..#.########.#....#......#....#"
-		"#..#..........#....#......#....#"
-		"#..############....#......#....#"
-		"#..................########....#"
-		"#..............................#"
-		"#..............................#"
-		"################################"
-    };
+char worldMap[1026] = {
+	"################################"
+	"#..............................#"
+	"#.......#####.#.....#####......#"
+	"#.......#...#.#.....#..........#"
+	"#.......#...#.#.....#..........#"
+	"#.......#####.#####.#####......#"
+	"#..............................#"
+	"#....#####.#####.#####.#####...#"
+	"#........#.#...#.....#.....#...#"
+	"#....#####.#...#.#####.#####...#"
+	"#....#.....#...#.#.....#.......#"
+	"#....#####.#####.#####.#####...#"
+	"#..............................#"
+	"#..............................#"
+	"#..#.#..........#....#.........#"
+	"#..#.#..........#....#.........#"
+	"#..#.#.......#####.#######.....#"
+	"#..#.#..........#....#.........#"
+	"#..#.#.............###.#.#.....#"
+	"#..#.##########................#"
+	"#..#..........#....#.#.#.#.....#"
+	"#..#.####.###.#................#"
+	"#..#.#......#.#................#"
+	"#..#.#.####.#.#....###..###....#"
+	"#..#.#......#.#....#......#....#"
+	"#..#.########.#....#......#....#"
+	"#..#..........#....#......#....#"
+	"#..############....#......#....#"
+	"#..................########....#"
+	"#..............................#"
+	"#..............................#"
+	"################################"
+};
 
 
 Vector2 worldSize = (Vector2) {32, 32};
@@ -132,7 +132,6 @@ Vector2 potentialPosition;
 
 Vector2 areaTopLeft;
 Vector2 areaBottomRight;
-
 
 static double totalTime;
 static double deltaTime;
@@ -171,8 +170,8 @@ void InitGame(void)
     SetupGame();
 }
 
-void SetupGame(void) {
-
+void SetupGame(void) 
+{
     camera.target = Vector2Zero();
     camera.offset = Vector2Zero();
     camera.zoom = 20;
@@ -182,7 +181,6 @@ void SetupGame(void) {
     object.vel = (Vector2) {0.0f, 0.0f};
     object.radius = 0.5f;
     potentialPosition = object.pos;
-
 }
 
 void UpdateGame(void)
@@ -191,7 +189,6 @@ void UpdateGame(void)
     totalTime += deltaTime;
 
     if (followObject) {
-        // camera.target = Vector2Lerp(camera.target, Vector2Subtract(object.pos, Vector2Scale(Vector2One(), 15.5)), deltaTime * 4.0f);
         camera.target.x = Lerp(camera.target.x, object.pos.x - 15.5, deltaTime * 4.0f);
         camera.target.y = Lerp(camera.target.y, object.pos.y - 12, deltaTime * 4.0f);
     } else {
@@ -270,17 +267,16 @@ void DrawGame(void)
 {
     BeginDrawing();
             
-        BeginTextureMode(applicationSurface);
+	BeginTextureMode(applicationSurface);
 
         BeginMode2D(camera);
 
         ClearBackground(DARKBLUE);
-        
-
 
 		if (IsMouseButtonDown(MOUSE_BUTTON_MIDDLE)) camera.offset = Vector2Add(camera.offset, GetMouseDelta());
 		if (GetMouseWheelMove() > 0) camera.zoom += 1 * camera.zoom * 0.2;
 		if (GetMouseWheelMove() < 0) camera.zoom -= 1 * camera.zoom * 0.2;
+
         camera.zoom = Clamp(camera.zoom, 1, 100);
 
         Vector2 topLeft = Vector2Int(Vector2Zero());
@@ -291,10 +287,10 @@ void DrawGame(void)
 			{
 				if (worldMap[(int)(tile.y * worldSize.x + tile.x)] == '#')
 				{
-                    DrawLineV(tile, Vector2Add(tile, (Vector2){1.0f, 0.0f}), WHITE);
-                    DrawLineV(tile, Vector2Add(tile, (Vector2){0.0f, 1.0f}), WHITE);
-                    DrawLineV(Vector2Add(tile, (Vector2) {0.0f, 1.0f}), Vector2Add(tile, Vector2One()), WHITE);
-                    DrawLineV(Vector2Add(tile, (Vector2) {1.0f, 0.0f}), Vector2Add(tile, Vector2One()), WHITE);
+					DrawLineV(tile, Vector2Add(tile, (Vector2){1.0f, 0.0f}), WHITE);
+					DrawLineV(tile, Vector2Add(tile, (Vector2){0.0f, 1.0f}), WHITE);
+					DrawLineV(Vector2Add(tile, (Vector2) {0.0f, 1.0f}), Vector2Add(tile, Vector2One()), WHITE);
+					DrawLineV(Vector2Add(tile, (Vector2) {1.0f, 0.0f}), Vector2Add(tile, Vector2One()), WHITE);
 
 					DrawLineV(tile, Vector2Add(tile, Vector2One()), WHITE);
 					DrawLineV(Vector2Add(tile, (Vector2) {0.0f, 1.0f}), Vector2Add(tile, (Vector2){1.0f, 0.0f}), WHITE);
@@ -314,21 +310,21 @@ void DrawGame(void)
 		}
 
        
-
         EndTextureMode();
 
         RenderApplicationSurface();
 
         if (followObject)
 		{
-			// camera.target = object.pos;
 			DrawText("Following Object", 10, 10, 10, WHITE);
 
 			DrawText(TextFormat("position:%2.2f", object.pos), 10, 20, 10, BLACK);
 			DrawText(TextFormat("potentialPosition:%2.2f", potentialPosition), 10, 30, 10, BLACK);
 			DrawText(TextFormat("velocity:%2.2f", object.vel), 10, 40, 10, BLACK);
 		} 
+	
         EndMode2D();
+	
     EndDrawing();
 }
 
