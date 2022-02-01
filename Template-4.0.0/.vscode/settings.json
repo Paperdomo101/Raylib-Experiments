@@ -1,6 +1,5 @@
 {
     "files.associations": {
-        "*.java": "java",
         "raymath.h": "c",
         "raylib.h": "c"
     }
